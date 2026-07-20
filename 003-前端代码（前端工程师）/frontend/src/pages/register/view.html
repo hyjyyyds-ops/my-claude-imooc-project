@@ -1,0 +1,29 @@
+<!--
+  register/view.html
+  --------------------------------------------------------------------------
+  注册页结构片段
+  --------------------------------------------------------------------------
+-->
+<div class="auth-page">
+  <div class="auth-logo">
+    <div class="auth-logo-icon">🐾</div>
+    <div class="auth-logo-title">创建账户</div>
+  </div>
+
+  <form class="auth-form" id="register-form">
+    <input id="register-username" type="text" class="input-field"
+           placeholder="设置用户名（3-20 位）" autocomplete="username" maxlength="20">
+
+    <input id="register-password" type="password" class="input-field"
+           placeholder="设置密码（6-20 位）" autocomplete="new-password" maxlength="20">
+
+    <input id="register-confirm" type="password" class="input-field"
+           placeholder="确认密码" autocomplete="new-password" maxlength="20">
+
+    <button type="submit" class="btn-primary">✨ 注 册 ✨</button>
+  </form>
+
+  <div class="auth-link">
+    已有账户？ <a data-nav="login">立即登录</a>
+  </div>
+</div>

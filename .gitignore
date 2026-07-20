@@ -1,0 +1,41 @@
+# ============================================================
+# .gitignore - 每日消费记录助手
+# ============================================================
+
+# 临时文件夹（可重新生成）
+TMP.可删除/
+
+# UI 原型图（1.4MB，建议单独存档或用 Git LFS）
+002-产品UI原型（美术设计）/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器/IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 日志文件
+*.log
+logs/
+
+# 环境变量
+.env
+.env.local
+
+# 依赖目录（未来如有）
+node_modules/
+bower_components/
+
+# 构建产物（未来如有）
+dist/
+build/
+
+# 缓存
+.cache/
+.parcel-cache/

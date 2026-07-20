@@ -1,0 +1,27 @@
+<!--
+  login/view.html
+  --------------------------------------------------------------------------
+  登录页结构片段 - 会被主入口 fetch 后注入到 <main id="app-main">
+  --------------------------------------------------------------------------
+-->
+<div class="auth-page">
+  <div class="auth-logo">
+    <div class="auth-logo-icon">🐱</div>
+    <div class="auth-logo-title">每日记账</div>
+    <div class="auth-logo-slogan">轻松记账，可爱生活 💕</div>
+  </div>
+
+  <form class="auth-form" id="login-form">
+    <input id="login-username" type="text" class="input-field"
+           placeholder="请输入用户名" autocomplete="username" maxlength="20">
+
+    <input id="login-password" type="password" class="input-field"
+           placeholder="请输入密码" autocomplete="current-password" maxlength="20">
+
+    <button type="submit" class="btn-primary">✨ 登 录 ✨</button>
+  </form>
+
+  <div class="auth-link">
+    还没有账户？ <a data-nav="register">立即注册</a> →
+  </div>
+</div>

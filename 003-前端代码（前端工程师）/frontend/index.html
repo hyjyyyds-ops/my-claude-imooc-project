@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>每日消费记录助手 ✨</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- 全局样式 -->
+  <link rel="stylesheet" href="src/styles/main.css">
+</head>
+<body>
+  <!-- ============================================================
+       全局组件挂载点 - 由 Header.js / TabBar.js 在启动时渲染
+       ============================================================ -->
+  <div class="header" id="app-header" style="display: none;"></div>
+
+  <!-- 主内容区 - 由 router.js 动态注入各页面 view.html -->
+  <main class="main-content" id="app-main">
+    <div class="loading">加载中...</div>
+  </main>
+
+  <!-- 底部 Tab Bar - 由 TabBar.js 渲染 -->
+  <div class="tab-bar" id="app-tabbar" style="display: none;"></div>
+
+  <!-- 全局反馈组件挂载点 -->
+  <div id="particles-container"></div>
+  <div id="toast"></div>
+
+  <!-- 全局 Modal 容器 - 由 Modal.js 动态渲染 -->
+  <div class="modal-overlay" id="global-modal"></div>
+
+  <!-- ============================================================
+       JavaScript 模块加载（顺序：依赖项在前）
+       ============================================================ -->
+  <!-- 工具层 -->
+  <script src="src/utils/constants.js"></script>
+  <script src="src/utils/helpers.js"></script>
+  <script src="src/utils/storage.js"></script>
+  <script src="src/utils/crypto.js"></script>
+
+  <!-- 业务逻辑层 -->
+  <script src="src/scripts/ui.js"></script>
+  <script src="src/scripts/user.js"></script>
+  <script src="src/scripts/bill.js"></script>
+
+  <!-- 组件层 -->
+  <script src="src/components/Header.js"></script>
+  <script src="src/components/TabBar.js"></script>
+  <script src="src/components/CategoryGrid.js"></script>
+  <script src="src/components/BillList.js"></script>
+  <script src="src/components/NumberPad.js"></script>
+  <script src="src/components/Modal.js"></script>
+  <script src="src/components/EmptyState.js"></script>
+
+  <!-- 页面层（每个页面一个目录，含 view.html + index.js） -->
+  <script src="src/pages/login/index.js"></script>
+  <script src="src/pages/register/index.js"></script>
+  <script src="src/pages/record/index.js"></script>
+  <script src="src/pages/detail/index.js"></script>
+  <script src="src/pages/stats/index.js"></script>
+  <script src="src/pages/profile/index.js"></script>
+
+  <!-- 路由层 -->
+  <script src="src/scripts/router.js"></script>
+
+  <!-- ============================================================
+       应用启动
+       ============================================================ -->
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      // 挂载全局 UI 框架（Header 和 TabBar 在每次切换页面时由路由更新内容）
+      Header.mount("#app-header");
+      TabBar.mount("#app-tabbar");
+
+      // 启动路由（自动判断登录态，跳转到默认页）
+      Router.bootstrap();
+    });
+  </script>
+</body>
+</html>

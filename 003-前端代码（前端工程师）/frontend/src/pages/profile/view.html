@@ -1,0 +1,41 @@
+<!--
+  profile/view.html
+  --------------------------------------------------------------------------
+  个人中心页
+  使用组件：CategoryGrid（manage 模式）
+  --------------------------------------------------------------------------
+-->
+<div class="profile-card">
+  <!-- 头像区域 - 点击触发本地文件选择 -->
+  <div class="profile-avatar" id="profile-avatar" title="点击上传头像">
+    <span id="profile-avatar-emoji">🐱</span>
+    <div class="avatar-overlay">📷</div>
+  </div>
+  <div class="profile-username" id="profile-username">欢迎，访客</div>
+  <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+</div>
+
+<div class="profile-menu-item" data-action="export">
+  <span class="profile-menu-icon">📤</span>
+  <span class="profile-menu-label">导出我的数据</span>
+  <span class="profile-menu-arrow">›</span>
+</div>
+
+<div class="profile-menu-item" data-action="clear">
+  <span class="profile-menu-icon">🗑️</span>
+  <span class="profile-menu-label">清空所有数据</span>
+  <span class="profile-menu-arrow">›</span>
+</div>
+
+<div class="profile-menu-item" data-action="logout">
+  <span class="profile-menu-icon">🚪</span>
+  <span class="profile-menu-label">退出登录</span>
+  <span class="profile-menu-arrow">›</span>
+</div>
+
+<h3 style="margin: 24px 0 12px; font-size: 14px; color: var(--text-secondary);">自定义分类</h3>
+<div class="category-grid" id="profile-categories" style="grid-template-columns: repeat(3, 1fr);"></div>
+
+<div class="profile-warning">
+  ⚠️ 当前数据仅保存在本设备，换设备登录需重新注册
+</div>

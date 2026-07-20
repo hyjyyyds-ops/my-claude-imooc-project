@@ -1,0 +1,22 @@
+<!--
+  record/view.html
+  --------------------------------------------------------------------------
+  记账页（首页核心入口）
+  使用组件：CategoryGrid（选择模式）、NumberPad
+  --------------------------------------------------------------------------
+-->
+<div class="amount-display">
+  <div class="label">今天花了多少？</div>
+  <div class="value" id="amount-display">0.00</div>
+</div>
+
+<div class="category-grid" id="category-grid"></div>
+
+<input type="text" id="remark-input" class="input-field"
+       placeholder="今天买了什么鸭~ 🍬" maxlength="50" style="margin: 16px 0;">
+
+<div id="number-keypad"></div>
+
+<button class="btn-primary" id="confirm-btn" style="margin-top: 12px; height: 56px;" disabled>
+  ✨ 确 认 记 账 ✨
+</button>
