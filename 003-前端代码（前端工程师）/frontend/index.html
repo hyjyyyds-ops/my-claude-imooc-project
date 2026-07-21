@@ -35,11 +35,20 @@
   <!-- ============================================================
        JavaScript 模块加载（顺序：依赖项在前）
        ============================================================ -->
+  <!-- 全局配置（必须在 api.js 之前） -->
+  <script>
+    // 后端 API 地址：可在控制台通过 ApiClient.setBase() 动态修改
+    window.APP_CONFIG = {
+      apiBase: "http://localhost:3001",  // Express 后端地址
+    };
+  </script>
+
   <!-- 工具层 -->
   <script src="src/utils/constants.js"></script>
   <script src="src/utils/helpers.js"></script>
   <script src="src/utils/storage.js"></script>
   <script src="src/utils/crypto.js"></script>
+  <script src="src/utils/api.js"></script>
 
   <!-- 业务逻辑层 -->
   <script src="src/scripts/ui.js"></script>
