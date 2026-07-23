@@ -14,10 +14,11 @@ Pages.stats = {
     period: "current", // "current" | "last"
   },
 
-  onMount() {
+  async onMount() {
     document.querySelectorAll(".stats-period-tab").forEach(tab => {
       tab.onclick = () => this.switchPeriod(tab.dataset.period);
     });
+    await BillModule.refreshAll();
     this.render();
   },
 

@@ -18,7 +18,8 @@ Pages = window.Pages || {};
 Pages.profile = {
   view: "src/pages/profile/view.html",
 
-  onMount() {
+  async onMount() {
+    await BillModule.refreshAll();
     this.renderUserInfo();
     this.renderAvatar();
     this.renderCustomCategories();
@@ -33,20 +34,15 @@ Pages.profile = {
   },
 
   /**
-   * 渲染头像（优先读 userId 对应的头像，无则用默认 Emoji）
+   * 渲染头像（从后端用户信息读取 avatar，无则用默认 Emoji）
    */
   renderAvatar() {
-    const userId = Storage.get(STORAGE_KEYS.CURRENT_USER);
-    if (!userId) return;
-    const avatars = Storage.get(STORAGE_KEYS.AVATARS, {});
+    const userInfo = BillModule._cache.userInfo;
     const avatarEl = document.getElementById("profile-avatar");
-
-    if (avatars[userId]) {
-      // 用背景图方式显示，避免 innerHTML 注入风险
-      avatarEl.style.backgroundImage = `url(${avatars[userId]})`;
+    if (userInfo && userInfo.avatar) {
+      avatarEl.style.backgroundImage = `url(${userInfo.avatar})`;
       avatarEl.style.backgroundSize = "cover";
       avatarEl.style.backgroundPosition = "center";
-      // 隐藏默认 Emoji
       const emoji = avatarEl.querySelector("#profile-avatar-emoji");
       if (emoji) emoji.style.display = "none";
     }
@@ -112,9 +108,7 @@ Pages.profile = {
   },
 
   renderCustomCategories() {
-    const userId = Storage.get(STORAGE_KEYS.CURRENT_USER);
-    const customCategories = Storage.get(STORAGE_KEYS.CATEGORIES, [])
-      .filter(c => c.userId === userId);
+    const customCategories = BillModule.getCategories().filter(c => c.isCustom === 1);
 
     if (customCategories.length === 0) {
       EmptyState.render("#profile-categories", {

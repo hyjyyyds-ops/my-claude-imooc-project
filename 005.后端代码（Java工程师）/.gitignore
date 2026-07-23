@@ -1,0 +1,44 @@
+# 编译产物
+target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 日志
+*.log
+logs/
+
+# 环境变量
+.env
+.env.local
+application-local.yml
+application-prod.yml
+
+# 临时文件
+*.tmp
+*.bak
+*~
+
+# Maven
+mvnw
+mvnw.cmd
+.mvn/wrapper/maven-wrapper.jar
+
+# 依赖缓存（如果用本地仓库可以排除）
+# .m2/

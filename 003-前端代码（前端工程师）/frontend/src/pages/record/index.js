@@ -27,7 +27,9 @@ Pages.record = {
   /**
    * 页面挂载后调用（每次进入页面都会调用）
    */
-  onMount() {
+  async onMount() {
+    // 先异步拉取分类和记录，再渲染 UI
+    await BillModule.refreshAll();
     this.refreshCategoryGrid();
 
     // 渲染数字键盘（mount 内部自动绑定事件；只在 onMount 中调用一次，避免重复绑定）
@@ -100,27 +102,31 @@ Pages.record = {
   /**
    * 保存记账
    */
-  saveRecord() {
+  async saveRecord() {
     const amount = parseFloat(this.state.currentAmount);
     if (amount <= 0 || !this.state.selectedCategoryId) return;
 
-    BillModule.addRecord({
-      amount,
-      categoryId: this.state.selectedCategoryId,
-      remark: document.getElementById("remark-input").value.trim(),
-      date: Helpers.formatDate(),
-    });
+    try {
+      await BillModule.addRecord({
+        amount,
+        categoryId: this.state.selectedCategoryId,
+        remark: document.getElementById("remark-input").value.trim(),
+        date: Helpers.formatDate(),
+      });
 
-    UI.spawnParticles("#confirm-btn");
-    UI.toast("记账成功 ✨");
+      UI.spawnParticles("#confirm-btn");
+      UI.toast("记账成功 ✨");
 
-    // 重置表单状态（修复：不再调用 onMount，避免数字键盘事件叠加）
-    this.state.currentAmount = "0";
-    this.state.selectedCategoryId = null;
-    document.getElementById("remark-input").value = "";
-    this.updateAmountDisplay();
-    this.refreshCategoryGrid();   // 只刷新分类网格的选中态
-    Header.updateStreak(BillModule.getStreak());
+      // 重置表单状态
+      this.state.currentAmount = "0";
+      this.state.selectedCategoryId = null;
+      document.getElementById("remark-input").value = "";
+      this.updateAmountDisplay();
+      this.refreshCategoryGrid();
+      Header.updateStreak(BillModule.getStreak());
+    } catch (e) {
+      UI.toast(e.message || "记账失败 🥺");
+    }
   },
 
   /* ----------- 添加分类弹窗 ----------- */
@@ -160,15 +166,19 @@ Pages.record = {
   /**
    * 保存新分类
    */
-  saveNewCategory() {
+  async saveNewCategory() {
     const name = document.getElementById("new-category-name").value.trim();
     if (!name) {
       UI.toast("请输入分类名称 🥺");
       return;
     }
-    BillModule.addCategory({ name, icon: this.state.addCategoryEmoji });
-    Modal.hide();
-    this.refreshCategoryGrid();  // 修复：不要重新挂载整个 onMount
-    UI.toast("分类添加成功 ✨");
+    try {
+      await BillModule.addCategory({ name, icon: this.state.addCategoryEmoji });
+      Modal.hide();
+      this.refreshCategoryGrid();
+      UI.toast("分类添加成功 ✨");
+    } catch (e) {
+      UI.toast(e.message || "分类添加失败 🥺");
+    }
   },
 };

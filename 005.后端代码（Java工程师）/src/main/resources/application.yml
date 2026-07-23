@@ -1,0 +1,79 @@
+# ===== 服务器配置 =====
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# ===== Spring 配置 =====
+spring:
+  application:
+    name: expense-tracker-backend
+
+  # 数据库连接
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3307/expense_tracker?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
+    username: root
+    password: root
+    hikari:
+      pool-name: ExpenseTrackerHikariCP
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  # Jackson 时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+  # 注：Jackson 2.13 默认对 Emoji 用 \uXXXX 转义，前端 JSON.parse() 会自动还原为原生字符。
+  # 如需直接输出原生 Emoji（如 {"icon":"🐱"}），可通过 ObjectMapper 编程方式配置
+  # JsonGenerator.Feature.WRITE_NON_ASCII_TARGET = false
+
+# ===== MyBatis-Plus 配置 =====
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.expense.tracker.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开发期打印 SQL
+  global-config:
+    db-config:
+      id-type: ASSIGN_UUID         # 使用程序生成的 UUID（与前端 id_xxx 格式对齐）
+      logic-delete-field: deleted  # 预留逻辑删除字段
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# ===== 自定义配置 =====
+expense:
+  jwt:
+    # 注意：与 Node.js 后端 (003-前端代码/backend) 的默认密钥保持完全一致
+    # 否则跨后端的 token 互相不识别（一个用户可能用 Node.js 登录后切到 Java，401）
+    secret: ${JWT_SECRET:please_change_me_to_a_long_random_string_in_production}
+    expires-in-seconds: 604800      # 7 天
+  cors:
+    allowed-origins:
+      - http://localhost:3001       # Node.js Express 后端
+      - http://localhost:5173       # Vite dev
+      - http://localhost:8000       # Python 静态服务器
+      - http://127.0.0.1:*
+      - http://localhost:*
+
+# ===== SpringDoc / Swagger =====
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  packages-to-scan: com.expense.tracker.controller
+
+# ===== 日志 =====
+logging:
+  level:
+    root: INFO
+    com.expense.tracker: DEBUG
+    com.expense.tracker.mapper: DEBUG

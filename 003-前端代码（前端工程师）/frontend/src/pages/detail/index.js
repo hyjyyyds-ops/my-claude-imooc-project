@@ -21,7 +21,8 @@ Pages.detail = {
     selectedFilter: "all",
   },
 
-  onMount() {
+  async onMount() {
+    await BillModule.refreshAll();
     this.renderFilterBar();
     this.renderBillList();
   },

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+  <!-- 本项目专用 Maven 配置 -->
+  <mirrors>
+    <!-- 阿里云作为主要中央镜像 -->
+    <mirror>
+      <id>aliyun-public</id>
+      <mirrorOf>central</mirrorOf>
+      <name>Aliyun Public</name>
+      <url>https://maven.aliyun.com/repository/public</url>
+    </mirror>
+  </mirrors>
+
+  <!-- 仓库与 JDK 配置 -->
+  <profiles>
+    <!-- 备用仓库：Maven Central 直连 + Spring 仓库 -->
+    <profile>
+      <id>extra-repos</id>
+      <repositories>
+        <repository>
+          <id>central-direct</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+        <repository>
+          <id>spring-milestones</id>
+          <url>https://repo.spring.io/milestone</url>
+          <releases><enabled>true</enabled></releases>
+        </repository>
+      </repositories>
+    </profile>
+
+    <!-- JDK 11 编译配置 -->
+    <profile>
+      <id>jdk11</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <jdk>11</jdk>
+      </activation>
+      <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+      </properties>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>extra-repos</activeProfile>
+  </activeProfiles>
+
+</settings>
